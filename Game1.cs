@@ -29,12 +29,22 @@ namespace Part_3__Animation
             // TODO: Add your initialization logic here
             _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 500;
+            tribblegreyRect = new Rectangle(300, 10, 100, 100);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            tribblebrownTexture = Content.Load<Texture2D>("tribbleBrown");
+            tribblecreamTexture = Content.Load<Texture2D>("tribbleCream");
+            tribbleorangeTexture = Content.Load<Texture2D>("tribbleOrange");
+            tribblegreyTexture = Content.Load<Texture2D>("tribbleGrey");
+
+
+
+
+
 
             // TODO: use this.Content to load your game content here
         }
@@ -51,8 +61,12 @@ namespace Part_3__Animation
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.Begin();
 
+            _spriteBatch.Draw(tribblegreyTexture, tribblegreyRect, Color.White);
+
+            _spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
