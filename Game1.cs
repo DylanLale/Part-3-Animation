@@ -13,6 +13,7 @@ namespace Part_3__Animation
         Texture2D tribblecreamTexture;
         Texture2D tribbleorangeTexture;
         Texture2D tribblegreyTexture;
+        Texture2D backgroundTexture;
         Rectangle tribblegreyRect;
         Vector2 tribblegreySpeed;
         Rectangle tribblebrownRect;
@@ -52,6 +53,7 @@ namespace Part_3__Animation
             tribblecreamTexture = Content.Load<Texture2D>("tribbleCream");
             tribbleorangeTexture = Content.Load<Texture2D>("tribbleOrange");
             tribblegreyTexture = Content.Load<Texture2D>("tribbleGrey");
+            backgroundTexture = Content.Load<Texture2D>("space");
 
 
 
@@ -99,6 +101,7 @@ namespace Part_3__Animation
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
 
+            _spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
             _spriteBatch.Draw(tribblegreyTexture, tribblegreyRect, Color.White);
             _spriteBatch.Draw(tribblecreamTexture, tribblecreamRect, Color.White);
             _spriteBatch.Draw(tribbleorangeTexture, tribbleorangeRect, Color.White);
