@@ -102,7 +102,7 @@ namespace Part_3__Animation
 
             tribblecreamRect.X += (int)tribblecreamSpeed.X;
             tribblecreamRect.Y += (int)tribblecreamSpeed.Y;
-            if (tribblecreamRect.Right > 800 || tribblecreamRect.Left > 0)
+            if (tribblecreamRect.Right > 800 || tribblecreamRect.Left < 0)
             {
                 tribblecreamSpeed.X *= -1;
                 tribblecreamRect = new Rectangle(generator.Next(50, 400), (generator.Next(50, 400)),generator.Next(10, 100), generator.Next(10, 100));
