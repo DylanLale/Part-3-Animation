@@ -25,6 +25,7 @@ namespace Part_3__Animation
         Vector2 tribblecreamSpeed;
         Rectangle tribbleorangeRect;
         Vector2 tribbleorangeSpeed;
+        SoundEffect cooSound;
         Random generator = new Random();
 
    
@@ -60,6 +61,7 @@ namespace Part_3__Animation
             tribbleorangeTexture = Content.Load<Texture2D>("tribbleOrange");
             tribblegreyTexture = Content.Load<Texture2D>("tribbleGrey");
             backgroundTexture = Content.Load<Texture2D>("space");
+            cooSound = Content.Load<SoundEffect>("tribble_coo");
 
 
 
@@ -78,6 +80,7 @@ namespace Part_3__Animation
             {
                 tribblegreySpeed.X *= -1;
                 tribblegreyRect = new Rectangle(400, 30, generator.Next(10, 100), generator.Next(10, 100));
+                cooSound.Play();
             }
                 
 
@@ -89,6 +92,7 @@ namespace Part_3__Animation
             {
                 tribblebrownSpeed.X *= -1;
                 tribblebrownRect = new Rectangle(generator.Next(50, 400), (generator.Next(50, 400)), generator.Next(10, 100), generator.Next(10, 100));
+                cooSound.Play();
             }
                 
 
@@ -96,6 +100,7 @@ namespace Part_3__Animation
             {
                 tribblebrownSpeed.Y *= -1;
                 tribblebrownRect = new Rectangle(generator.Next(50, 400), (generator.Next(50, 400)), generator.Next(10, 100), generator.Next(10, 100));
+                cooSound.Play();
             }
                 
 
@@ -106,6 +111,7 @@ namespace Part_3__Animation
             {
                 tribblecreamSpeed.X *= -1;
                 tribblecreamRect = new Rectangle(generator.Next(50, 400), (generator.Next(50, 400)),generator.Next(10, 100), generator.Next(10, 100));
+                cooSound.Play();
             }
                 
 
@@ -114,6 +120,7 @@ namespace Part_3__Animation
             {
                 tribblecreamSpeed.Y *= -1;
                 tribblecreamRect = new Rectangle(generator.Next(50, 400), (generator.Next(50, 400)), generator.Next(10, 100), generator.Next(10, 100));
+                cooSound.Play();
             }
                 
 
@@ -124,6 +131,7 @@ namespace Part_3__Animation
             {
                 tribbleorangeSpeed.Y *= -1;
                 tribbleorangeRect = new Rectangle (generator.Next(50, 400), (generator.Next(50, 400)), generator.Next(10, 100), generator.Next(10, 100));
+                cooSound.Play();
             }
                 
 
