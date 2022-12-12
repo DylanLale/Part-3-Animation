@@ -8,46 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace Part_3__Animation
 {
-    public class tribble
-    {
-        private Texture2D _texture;
-        private Rectangle _rect;
-        private Vector2 _speed;
-
-
-        public tribble(Texture2D texture, Rectangle rectangle, Vector2 speed)
-        {
-            _texture = texture;
-            _rect = rectangle;
-            _speed = speed;
-        }
-
-        public void Move()
-        {
-            _rect.Offset(_speed);
-        }
-
-        public void BounceLeftRight()
-        {
-            _speed.X *= -1;
-        }
-
-        public void BounceTopBottom()
-        {
-            _speed.Y *= -1;
-        }
-
-        public Rectangle Bounds
-        {
-            get { return _rect; }
-            set { _rect = value; }
-        }
-
-        public Texture2D Texture
-        {
-            get { return _texture; }
-        }
-    }
+    
         public class Game1 : Game
     {
         
@@ -67,9 +28,7 @@ namespace Part_3__Animation
         Rectangle tribbleorangeRect;
         Vector2 tribbleorangeSpeed;
         SoundEffect cooSound;
-        List<Texture2D> tribbleTextures; 
-
-        List<tribble> tribbles;
+       
         Random generator = new Random();
 
    
@@ -96,14 +55,8 @@ namespace Part_3__Animation
             tribbleorangeRect = new Rectangle(400, 30, generator.Next(10, 100), generator.Next(10, 100));
             
             base.Initialize();
-            tribbles = new List<tribble>();
-            tribbleTextures = new List<Texture2D>()
-            {
-                tribblebrownTexture,
-                tribblecreamTexture,
-                tribblegreyTexture,
-                tribbleorangeTexture
-            };
+
+            
         }
 
         protected override void LoadContent()
