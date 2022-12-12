@@ -3,22 +3,63 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace Part_3__Animation
 {
-    public class Game1 : Game
+    public class tribble
     {
+        private Texture2D _texture;
+        private Rectangle _rect;
+        private Vector2 _speed;
+
+
+        public tribble(Texture2D texture, Rectangle rectangle, Vector2 speed)
+        {
+            _texture = texture;
+            _rect = rectangle;
+            _speed = speed;
+        }
+
+        public void Move()
+        {
+            _rect.Offset(_speed);
+        }
+
+        public void BounceLeftRight()
+        {
+            _speed.X *= -1;
+        }
+
+        public void BounceTopBottom()
+        {
+            _speed.Y *= -1;
+        }
+
+        public Rectangle Bounds
+        {
+            get { return _rect; }
+            set { _rect = value; }
+        }
+
+        public Texture2D Texture
+        {
+            get { return _texture; }
+        }
+    }
+        public class Game1 : Game
+    {
+        
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        tribble tribble1;
+        Texture2D tribblegreyTexture;
         Texture2D tribblebrownTexture;
         Texture2D tribblecreamTexture;
         Texture2D tribbleorangeTexture;
-        Texture2D tribblegreyTexture;
         Texture2D backgroundTexture;
-        Rectangle tribblegreyRect;
-        Vector2 tribblegreySpeed;
         Rectangle tribblebrownRect;
         Vector2 tribblebrownSpeed;
         Rectangle tribblecreamRect;
@@ -26,6 +67,9 @@ namespace Part_3__Animation
         Rectangle tribbleorangeRect;
         Vector2 tribbleorangeSpeed;
         SoundEffect cooSound;
+        List<Texture2D> tribbleTextures; 
+
+        List<tribble> tribbles;
         Random generator = new Random();
 
    
@@ -35,22 +79,31 @@ namespace Part_3__Animation
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferHeight = 500;
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
 
-            _graphics.PreferredBackBufferWidth = 800;
-            _graphics.PreferredBackBufferHeight = 500;
-            tribblegreySpeed = new Vector2(2, 0);
-            tribblegreyRect = new Rectangle(300, 10, generator.Next(10, 100), generator.Next(10, 100));
+            
             tribblebrownSpeed = new Vector2(1, 2);
             tribblebrownRect = new Rectangle(300, 10, generator.Next(10, 100), generator.Next(10, 100));
             tribblecreamSpeed = new Vector2(2, 0);
             tribblecreamRect = new Rectangle(300, 10, generator.Next(10, 100), generator.Next(10, 100));
             tribbleorangeSpeed = new Vector2(0, 2);
             tribbleorangeRect = new Rectangle(400, 30, generator.Next(10, 100), generator.Next(10, 100));
+            
             base.Initialize();
+            tribbles = new List<tribble>();
+            tribbleTextures = new List<Texture2D>()
+            {
+                tribblebrownTexture,
+                tribblecreamTexture,
+                tribblegreyTexture,
+                tribbleorangeTexture
+            };
         }
 
         protected override void LoadContent()
@@ -59,7 +112,6 @@ namespace Part_3__Animation
             tribblebrownTexture = Content.Load<Texture2D>("tribbleBrown");
             tribblecreamTexture = Content.Load<Texture2D>("tribbleCream");
             tribbleorangeTexture = Content.Load<Texture2D>("tribbleOrange");
-            tribblegreyTexture = Content.Load<Texture2D>("tribbleGrey");
             backgroundTexture = Content.Load<Texture2D>("space");
             cooSound = Content.Load<SoundEffect>("tribble_coo");
 
@@ -74,15 +126,12 @@ namespace Part_3__Animation
 
         protected override void Update(GameTime gameTime)
         {
-            tribblegreyRect.X += (int)tribblegreySpeed.X;
-            tribblegreyRect.Y += (int)tribblegreySpeed.Y;
-            if (tribblegreyRect.Right > 800 || tribblegreyRect.Left < 0)
-            {
-                tribblegreySpeed.X *= -1;
-                tribblegreyRect = new Rectangle(400, 30, generator.Next(10, 100), generator.Next(10, 100));
-                cooSound.Play();
-            }
-                
+            tribble1.Move();
+            if (tribble1.Bounds.Right > 800 || tribble1.Bounds.Left < 0)
+                tribble1.BounceLeftRight();
+            if (tribble1.Bounds.Bottom > 500 || tribble1.Bounds.Top < 0)
+                tribble1.BounceTopBottom();
+
 
 
 
@@ -150,7 +199,7 @@ namespace Part_3__Animation
             _spriteBatch.Begin();
 
             _spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
-            _spriteBatch.Draw(tribblegreyTexture, tribblegreyRect, Color.White);
+            _spriteBatch.Draw(tribble1.Texture, tribble1.Bounds, Color.White);
             _spriteBatch.Draw(tribblecreamTexture, tribblecreamRect, Color.White);
             _spriteBatch.Draw(tribbleorangeTexture, tribbleorangeRect, Color.White);
             _spriteBatch.Draw(tribblebrownTexture, tribblebrownRect, Color.White);
