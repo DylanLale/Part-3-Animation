@@ -53,15 +53,14 @@ namespace Part_3__Animation
             tribblecreamRect = new Rectangle(300, 10, generator.Next(10, 100), generator.Next(10, 100));
             tribbleorangeSpeed = new Vector2(0, 2);
             tribbleorangeRect = new Rectangle(400, 30, generator.Next(10, 100), generator.Next(10, 100));
-            
             base.Initialize();
-
-            
+            tribble1 = new tribble(tribblegreyTexture, new Rectangle(10, 10, 100, 100), new Vector2(2, 0));
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            tribblegreyTexture = Content.Load<Texture2D>("tribbleGrey");
             tribblebrownTexture = Content.Load<Texture2D>("tribbleBrown");
             tribblecreamTexture = Content.Load<Texture2D>("tribbleCream");
             tribbleorangeTexture = Content.Load<Texture2D>("tribbleOrange");
