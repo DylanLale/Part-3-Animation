@@ -15,19 +15,24 @@ namespace Part_3__Animation
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        enum Screen
+        {
+            Intro,
+            TribbleYard,
+        }
+        Screen screen;
         tribble tribble1;
+        tribble tribble2;
+        tribble tribble3;
+        tribble tribble4;
         Texture2D tribblegreyTexture;
         Texture2D tribblebrownTexture;
         Texture2D tribblecreamTexture;
         Texture2D tribbleorangeTexture;
         Texture2D backgroundTexture;
-        Rectangle tribblebrownRect;
-        Vector2 tribblebrownSpeed;
-        Rectangle tribblecreamRect;
-        Vector2 tribblecreamSpeed;
-        Rectangle tribbleorangeRect;
-        Vector2 tribbleorangeSpeed;
+        MouseState mouseState;
         SoundEffect cooSound;
+        Texture2D tribbleIntroTexture;
        
         Random generator = new Random();
 
@@ -47,14 +52,13 @@ namespace Part_3__Animation
         {
 
             
-            tribblebrownSpeed = new Vector2(1, 2);
-            tribblebrownRect = new Rectangle(300, 10, generator.Next(10, 100), generator.Next(10, 100));
-            tribblecreamSpeed = new Vector2(2, 0);
-            tribblecreamRect = new Rectangle(300, 10, generator.Next(10, 100), generator.Next(10, 100));
-            tribbleorangeSpeed = new Vector2(0, 2);
-            tribbleorangeRect = new Rectangle(400, 30, generator.Next(10, 100), generator.Next(10, 100));
+            
             base.Initialize();
-            tribble1 = new tribble(tribblegreyTexture, new Rectangle(10, 10, 100, 100), new Vector2(2, 0));
+            screen = Screen.Intro;
+            tribble1 = new tribble(tribblegreyTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(2, 0));
+            tribble2 = new tribble(tribblebrownTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(2, 1));
+            tribble3 = new tribble(tribblecreamTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(1, 3));
+            tribble4 = new tribble(tribbleorangeTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(0, 2));
         }
 
         protected override void LoadContent()
@@ -66,6 +70,7 @@ namespace Part_3__Animation
             tribbleorangeTexture = Content.Load<Texture2D>("tribbleOrange");
             backgroundTexture = Content.Load<Texture2D>("space");
             cooSound = Content.Load<SoundEffect>("tribble_coo");
+            tribbleIntroTexture = Content.Load<Texture2D>("tribble_intro");
 
 
 
@@ -78,63 +83,94 @@ namespace Part_3__Animation
 
         protected override void Update(GameTime gameTime)
         {
-            tribble1.Move();
-            if (tribble1.Bounds.Right > 800 || tribble1.Bounds.Left < 0)
-                tribble1.BounceLeftRight();
-            if (tribble1.Bounds.Bottom > 500 || tribble1.Bounds.Top < 0)
-                tribble1.BounceTopBottom();
+            mouseState = Mouse.GetState();
 
-
-
-
-            tribblebrownRect.X += (int)tribblebrownSpeed.X;
-            tribblebrownRect.Y += (int)tribblebrownSpeed.Y;
-            if (tribblebrownRect.Right > 800 || tribblebrownRect.Left < 0)
+            if (screen == Screen.Intro)
             {
-                tribblebrownSpeed.X *= -1;
-                tribblebrownRect = new Rectangle(generator.Next(50, 400), (generator.Next(50, 400)), generator.Next(10, 100), generator.Next(10, 100));
-                cooSound.Play();
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                    screen = Screen.TribbleYard;
+
             }
+
+            else if (screen == Screen.TribbleYard)
+            {
+                tribble1.Move();
+                if (tribble1.Bounds.Right > 800 || tribble1.Bounds.Left < 0)
+                {
+                    tribble1.BounceLeftRight();
+                    tribble1 = new tribble(tribblegreyTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(2, 0));
+                    cooSound.Play();
+                }
+
+
+                if (tribble1.Bounds.Bottom > 500 || tribble1.Bounds.Top < 0)
+                {
+                    tribble1.BounceTopBottom();
+                    tribble1 = new tribble(tribblegreyTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(2, 0));
+                    cooSound.Play();
+                }
+
+
+
+
+
+                tribble2.Move();
+                if (tribble2.Bounds.Right > 800 || tribble2.Bounds.Left < 0)
+                {
+                    tribble2.BounceLeftRight();
+                    tribble2 = new tribble(tribblebrownTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(2, 1));
+                    cooSound.Play();
+                }
+
+
+                if (tribble2.Bounds.Bottom > 500 || tribble2.Bounds.Top < 0)
+                {
+                    tribble2.BounceTopBottom();
+                    tribble2 = new tribble(tribblebrownTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(2, 1));
+                    cooSound.Play();
+                }
+
+
+
+
+                tribble3.Move();
+                if (tribble3.Bounds.Right > 800 || tribble3.Bounds.Left < 0)
+                {
+                    tribble3.BounceLeftRight();
+                    tribble3 = new tribble(tribblecreamTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(1, 3));
+                    cooSound.Play();
+                }
+
+
+                if (tribble3.Bounds.Bottom > 500 || tribble3.Bounds.Top < 0)
+                {
+                    tribble3.BounceTopBottom();
+                    tribble3 = new tribble(tribblecreamTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(1, 3));
+                    cooSound.Play();
+                }
+
+
+
+
+                tribble4.Move();
+                if (tribble4.Bounds.Right > 800 || tribble4.Bounds.Left < 0)
+                {
+                    tribble4.BounceLeftRight();
+                    tribble4 = new tribble(tribbleorangeTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(0, 2));
+                    cooSound.Play();
+                }
+
+
+                if (tribble4.Bounds.Bottom > 500 || tribble4.Bounds.Top < 0)
+                {
+                    tribble4.BounceTopBottom();
+                    tribble4 = new tribble(tribbleorangeTexture, new Rectangle(generator.Next(10, 700), generator.Next(10, 400), generator.Next(10, 100), generator.Next(10, 100)), new Vector2(0, 2));
+                    cooSound.Play();
+                }
+            }
+           
                 
 
-            if (tribblebrownRect.Bottom > _graphics.PreferredBackBufferHeight || tribblebrownRect.Top < 0)
-            {
-                tribblebrownSpeed.Y *= -1;
-                tribblebrownRect = new Rectangle(generator.Next(50, 400), (generator.Next(50, 400)), generator.Next(10, 100), generator.Next(10, 100));
-                cooSound.Play();
-            }
-                
-
-
-            tribblecreamRect.X += (int)tribblecreamSpeed.X;
-            tribblecreamRect.Y += (int)tribblecreamSpeed.Y;
-            if (tribblecreamRect.Right > 800 || tribblecreamRect.Left < 0)
-            {
-                tribblecreamSpeed.X *= -1;
-                tribblecreamRect = new Rectangle(generator.Next(50, 400), (generator.Next(50, 400)),generator.Next(10, 100), generator.Next(10, 100));
-                cooSound.Play();
-            }
-                
-
-
-            if (tribblecreamRect.Bottom > _graphics.PreferredBackBufferHeight || tribblecreamRect.Top < 0)
-            {
-                tribblecreamSpeed.Y *= -1;
-                tribblecreamRect = new Rectangle(generator.Next(50, 400), (generator.Next(50, 400)), generator.Next(10, 100), generator.Next(10, 100));
-                cooSound.Play();
-            }
-                
-
-
-            tribbleorangeRect.X += (int)tribbleorangeSpeed.X;
-            tribbleorangeRect.Y += (int)tribbleorangeSpeed.Y;
-            if (tribbleorangeRect.Bottom > _graphics.PreferredBackBufferHeight || tribbleorangeRect.Top < 0)
-            {
-                tribbleorangeSpeed.Y *= -1;
-                tribbleorangeRect = new Rectangle (generator.Next(50, 400), (generator.Next(50, 400)), generator.Next(10, 100), generator.Next(10, 100));
-                cooSound.Play();
-            }
-                
 
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -149,13 +185,20 @@ namespace Part_3__Animation
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
+            if (screen == Screen.Intro)
+            {
+                _spriteBatch.Draw(tribbleIntroTexture, new Rectangle(0, 0, 800, 500), Color.White);
+            }
 
-            _spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
-            _spriteBatch.Draw(tribble1.Texture, tribble1.Bounds, Color.White);
-            _spriteBatch.Draw(tribblecreamTexture, tribblecreamRect, Color.White);
-            _spriteBatch.Draw(tribbleorangeTexture, tribbleorangeRect, Color.White);
-            _spriteBatch.Draw(tribblebrownTexture, tribblebrownRect, Color.White);
-
+            else if (screen == Screen.TribbleYard)
+            {
+                _spriteBatch.Draw(backgroundTexture, new Vector2(0, 0), Color.White);
+                _spriteBatch.Draw(tribble1.Texture, tribble1.Bounds, Color.White);
+                _spriteBatch.Draw(tribble2.Texture, tribble2.Bounds, Color.White);
+                _spriteBatch.Draw(tribble3.Texture, tribble3.Bounds, Color.White);
+                _spriteBatch.Draw(tribble4.Texture, tribble4.Bounds, Color.White);
+            }
+            
             _spriteBatch.End();
             // TODO: Add your drawing code here
 
